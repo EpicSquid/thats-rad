@@ -52,7 +52,7 @@ public class SweepyEntity extends Mob implements IAnimatable {
         return true;
     }
 
-    
+
     //animation
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {

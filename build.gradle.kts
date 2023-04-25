@@ -78,6 +78,7 @@ sourceSets {
 
 repositories {
 	maven("https://thedarkcolour.github.io/KotlinForForge/")
+	maven ("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
 }
 
 dependencies {
@@ -85,6 +86,7 @@ dependencies {
 	implementation("thedarkcolour:kotlinforforge:3.11.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
+	implementation ("software.bernie.geckolib:geckolib-forge-1.18:3.0.57")
 }
 
 tasks.jar {

@@ -14,6 +14,8 @@ group = "dev.epicsquid"
 val modid: String = "thatsrad"
 archivesName.set(modid)
 
+jarJar.enable()
+
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 minecraft {
@@ -77,15 +79,53 @@ sourceSets {
 }
 
 repositories {
+	// Curios
+	maven("https://maven.theillusivec4.top/")
+	// Registrate
+	maven("https://maven.tterrag.com/")
+	// Kotlin for Forge
 	maven("https://thedarkcolour.github.io/KotlinForForge/")
+	// JEI
+	maven("https://dvs1.progwml6.com/files/maven/")
 }
 
 dependencies {
-	minecraft("net.minecraftforge:forge:1.19.2-43.2.8")
+	val minecraftVersion = "1.19.2"
+	minecraft("net.minecraftforge:forge:$minecraftVersion-43.2.8")
 	implementation("thedarkcolour:kotlinforforge:3.11.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
+	// Curios
+	val curiosVersion = "5.1.1.0"
+	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion"))
+	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion:api"))
+
+	// Dev Environment Runtimes
+	runtimeOnly(fg.deobf("mezz.jei:jei-$minecraftVersion-forge:11.2.0.246"))
+
+	// Registrate
+	val registrateVersion = "MC1.19-1.1.5"
+	jarJar(group = "com.tterrag.registrate", name = "Registrate", version = "[MC1.19-1.1.5,)") {
+		jarJar.pin(this, registrateVersion)
+	}
+	implementation(fg.deobf("com.tterrag.registrate:Registrate:$registrateVersion"))
 }
+
+tasks.withType(GenerateModuleMetadata::class.java) {
+	enabled = false
+}
+
+tasks.register("jarJarRelease") {
+	doLast {
+		tasks.getByName("jarJar") {
+			(this as Jar).archiveClassifier.set("")
+		}
+	}
+	finalizedBy(tasks.getByName("jarJar"))
+}
+
+tasks.jar.get().finalizedBy("reobfJar")
+tasks.named("jarJar").get().finalizedBy("reobfJarJar")
 
 tasks.jar {
 	manifest {

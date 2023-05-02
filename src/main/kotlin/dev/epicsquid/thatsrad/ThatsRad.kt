@@ -57,10 +57,10 @@ object ThatsRad {
     }
 
     private fun commonSetup(event: FMLCommonSetupEvent) {
-        event.enqueueWork(Runnable { ForgottenMobs.run() })
+        event.enqueueWork(Runnable { ThatsRad.run() })
     }
 
-    @Mod.EventBusSubscriber(modid = ForgottenMobs.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = ThatsRad.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     object ClientModEvents {
         @SubscribeEvent
         fun onClientSetup(event: FMLClientSetupEvent?) {

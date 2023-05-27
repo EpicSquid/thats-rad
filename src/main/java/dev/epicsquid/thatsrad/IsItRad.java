@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import dev.epicsquid.thatsrad.block.ModBlocks;
 import dev.epicsquid.thatsrad.entity.ModEntityTypes;
 import dev.epicsquid.thatsrad.item.ModItems;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -56,7 +57,7 @@ public class IsItRad {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
           //Entity Renderer Assigner
-            // EntityRenderers.register(ModEntityTypes.ANIMATEDLEATHERARMOR.get(), AnimatedLeatherArmorRenderer::new);
+             EntityRenderers.register(ModEntityTypes.PLUGSLUG.get(), PlugSlugRenderer::new);
         }
     }
 }

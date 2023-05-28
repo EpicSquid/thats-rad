@@ -1,15 +1,10 @@
 package dev.epicsquid.thatsrad
 
-import com.mojang.logging.LogUtils
-import dev.epicsquid.thatsrad.entity.ModEntityTypes
-import dev.epicsquid.thatsrad.entity.client.renderer.SweepyRenderer
+import dev.epicsquid.thatsrad.ThatsRad.ClientModEvents.onClientSetup
+import dev.epicsquid.thatsrad.item.ModItems
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRenderers
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.SpawnPlacements
-import net.minecraft.world.entity.monster.Monster
-import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
@@ -19,7 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
-import org.slf4j.Logger
+import software.bernie.geckolib3.GeckoLib
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.runForDist
 import java.util.function.Consumer
@@ -64,15 +59,9 @@ object ThatsRad {
     object ClientModEvents {
         @SubscribeEvent
         fun onClientSetup(event: FMLClientSetupEvent?) {
-            EntityRenderers.register(
+            EntityRenderers(
 //                ModEntityTypes.SWEEPY.get(),
 //                EntityRendererProvider<T> { SweepyRenderer() })
-        }
-
-        object {
-            // Define mod id in a common place for everything to reference
-            const val ID = "thatsrad"
-            private val LOGGER: Logger = LogUtils.getLogger()
 
         }
 

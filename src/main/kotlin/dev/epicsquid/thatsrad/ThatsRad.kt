@@ -65,13 +65,13 @@ object ThatsRad {
         @SubscribeEvent
         fun onClientSetup(event: FMLClientSetupEvent?) {
             EntityRenderers.register(
-                ModEntityTypes.SWEEPY.get(),
-                EntityRendererProvider<T> { SweepyRenderer() })
+//                ModEntityTypes.SWEEPY.get(),
+//                EntityRendererProvider<T> { SweepyRenderer() })
         }
 
         object {
             // Define mod id in a common place for everything to reference
-            const val MODID = "forgottenmobs"
+            const val ID = "thatsrad"
             private val LOGGER: Logger = LogUtils.getLogger()
 
         }

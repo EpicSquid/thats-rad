@@ -50,7 +50,7 @@ public class PlugSlugEntity extends Pig implements IAnimatable {
     }
     public static final EntityDataAccessor<Boolean> TAMED = SynchedEntityData.defineId(PlugSlugEntity.class, EntityDataSerializers.BOOLEAN);
     public int tamingTime;
-    
+
     public void setHeldStack(ItemStack stack) {
         this.setItemSlot(EquipmentSlot.MAINHAND, stack == null ? ItemStack.EMPTY : stack);
     }

@@ -87,11 +87,14 @@ repositories {
 	maven("https://thedarkcolour.github.io/KotlinForForge/")
 	// JEI
 	maven("https://dvs1.progwml6.com/files/maven/")
+	//Geckolib
+	maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
 }
 
 dependencies {
 	val minecraftVersion = "1.19.2"
 	minecraft("net.minecraftforge:forge:$minecraftVersion-43.2.8")
+	//Kotlin
 	implementation("thedarkcolour:kotlinforforge:3.11.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
@@ -99,7 +102,8 @@ dependencies {
 	val curiosVersion = "5.1.1.0"
 	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion"))
 	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion:api"))
-
+//Geckolib
+	implementation (fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:3.1.40"))
 	// Dev Environment Runtimes
 	runtimeOnly(fg.deobf("mezz.jei:jei-$minecraftVersion-forge:11.2.0.246"))
 

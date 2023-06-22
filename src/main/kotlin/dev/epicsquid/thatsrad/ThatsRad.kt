@@ -1,84 +1,50 @@
 package dev.epicsquid.thatsrad
 
-import dev.epicsquid.thatsrad.ThatsRad.ClientModEvents.onClientSetup
+import com.tterrag.registrate.Registrate
+import dev.epicsquid.thatsrad.IsItRad.MODID
+import dev.epicsquid.thatsrad.registery.BlockInit
+import dev.epicsquid.thatsrad.data.ThatsRadTags
+import dev.epicsquid.thatsrad.registery.ItemInit
 import dev.epicsquid.thatsrad.item.ModItems
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.entity.EntityRenderers
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.eventbus.api.IEventBus
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
+import net.minecraftforge.common.data.ForgeBlockTagsProvider
+import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import org.apache.logging.log4j.Level
-import org.apache.logging.log4j.LogManager
 import software.bernie.geckolib3.GeckoLib
-import thedarkcolour.kotlinforforge.forge.MOD_BUS
-import thedarkcolour.kotlinforforge.forge.runForDist
-import java.util.function.Consumer
+import javax.annotation.Nonnull
 
 @Mod(ThatsRad.ID)
-object ThatsRad {
-    const val ID = "thatsrad"
+class ThatsRad {
+	companion object {
+		const val ID = "thatsrad"
 
-    val LOGGER = LogManager.getLogger(ID)
+		val registrate by lazy { Registrate.create(MODID).creativeModeTab { tab } }
 
-    init {
+		val tab: CreativeModeTab = object : CreativeModeTab(MODID) {
+			@Nonnull
+			override fun makeIcon(): ItemStack {
+				return ItemStack(ModItems.PLUGSLUG.get())
+			}
+		}
+	}
 
-        val modEventBus: IEventBus = FMLJavaModLoadingContext.get().getModEventBus()
-        ModItems.register(modEventBus)
-        ModEntityTypes.register(modEventBus)
-        GeckoLib.initialize()
-        modEventBus.addListener<FMLCommonSetupEvent>(Consumer<FMLCommonSetupEvent> { event: FMLCommonSetupEvent ->
-            commonSetup(
-                event
-            )
-        })
-        MinecraftForge.EVENT_BUS.register(this)
+	init {
 
-        val obj = runForDist(
-            clientTarget = {
-                MOD_BUS.addListener(::onClientSetup)
-                Minecraft.getInstance()
-            },
-            serverTarget = {
-                MOD_BUS.addListener(::onServerSetup)
-                "test"
-            })
+		FMLJavaModLoadingContext.get().modEventBus.addListener { event: GatherDataEvent -> gatherData(event) }
 
-        println(obj)
-    }
+		ItemInit.classload()
+		BlockInit.classload()
+//        ModEntityTypes.register(modEventBus)
+		GeckoLib.initialize()
 
-    private fun commonSetup(event: FMLCommonSetupEvent) {
-        event.enqueueWork(Runnable { ThatsRad.run() })
-    }
+	}
 
-    @Mod.EventBusSubscriber(modid = ThatsRad.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    object ClientModEvents {
-        @SubscribeEvent
-        fun onClientSetup(event: FMLClientSetupEvent?) {
-            EntityRenderers(
-//                ModEntityTypes.SWEEPY.get(),
-//                EntityRendererProvider<T> { SweepyRenderer() })
+	private fun gatherData(event: GatherDataEvent) {
+		val generator = event.generator
+		val blockTagsProvider = ForgeBlockTagsProvider(generator, event.existingFileHelper)
+		generator.addProvider(event.includeServer(), ThatsRadTags(generator, blockTagsProvider, event.existingFileHelper))
 
-        }
-
-        /**
-         * This is used for initializing client specific
-         * things such as renderers and keymaps
-         * Fired on the mod specific event bus.
-         */
-        private fun onClientSetup(event: FMLClientSetupEvent) {
-            LOGGER.log(Level.INFO, "Initializing client...")
-        }
-    }
-
-	/**
-	 * Fired on the global Forge bus.
-	 */
-	private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
-		LOGGER.log(Level.INFO, "Server starting...")
 	}
 }

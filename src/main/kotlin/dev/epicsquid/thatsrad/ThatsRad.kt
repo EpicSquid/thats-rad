@@ -1,13 +1,12 @@
 package dev.epicsquid.thatsrad
 
 import com.tterrag.registrate.Registrate
-import dev.epicsquid.thatsrad.IsItRad.MODID
-import dev.epicsquid.thatsrad.registery.BlockInit
 import dev.epicsquid.thatsrad.data.ThatsRadTags
+import dev.epicsquid.thatsrad.registery.BlockInit
 import dev.epicsquid.thatsrad.registery.ItemInit
-import dev.epicsquid.thatsrad.item.ModItems
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraftforge.common.data.ForgeBlockTagsProvider
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.fml.common.Mod
@@ -20,12 +19,12 @@ class ThatsRad {
 	companion object {
 		const val ID = "thatsrad"
 
-		val registrate by lazy { Registrate.create(MODID).creativeModeTab { tab } }
+		val registrate by lazy { Registrate.create(ID).creativeModeTab { tab } }
 
-		val tab: CreativeModeTab = object : CreativeModeTab(MODID) {
+		val tab: CreativeModeTab = object : CreativeModeTab(ID) {
 			@Nonnull
 			override fun makeIcon(): ItemStack {
-				return ItemStack(ModItems.PLUGSLUG.get())
+				return ItemStack(Items.LIGHTNING_ROD)
 			}
 		}
 	}

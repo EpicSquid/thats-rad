@@ -95,7 +95,7 @@ dependencies {
 	val minecraftVersion = "1.19.2"
 	minecraft("net.minecraftforge:forge:$minecraftVersion-43.2.8")
 	//Kotlin
-	implementation("thedarkcolour:kotlinforforge:3.11.0")
+	implementation("thedarkcolour:kotlinforforge:3.12.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
 	// Curios

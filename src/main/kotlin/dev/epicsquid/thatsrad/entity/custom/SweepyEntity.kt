@@ -1,7 +1,6 @@
 package dev.epicsquid.thatsrad.entity.custom
 
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.monster.Monster
@@ -18,9 +17,10 @@ import software.bernie.geckolib3.core.manager.AnimationData
 import software.bernie.geckolib3.core.manager.AnimationFactory
 import software.bernie.geckolib3.util.GeckoLibUtil
 
-class SweepyEntity protected constructor(pEntityType: EntityType<out Mob?>?, pLevel: Level?) : Mob(pEntityType, pLevel),
-    IAnimatable {
+class SweepyEntity  (pEntityType: EntityType<out Monster?>?, pLevel: Level?) :
+  Monster(pEntityType, pLevel), IAnimatable {
    private var factory = GeckoLibUtil.createFactory(this)
+
 
     //can collect items
     override fun canPickUpLoot(): Boolean {

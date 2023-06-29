@@ -2,6 +2,7 @@ package dev.epicsquid.thatsrad
 
 import com.tterrag.registrate.Registrate
 import dev.epicsquid.thatsrad.data.ThatsRadTags
+import dev.epicsquid.thatsrad.entity.ModEntityTypes
 import dev.epicsquid.thatsrad.registery.BlockInit
 import dev.epicsquid.thatsrad.registery.ItemInit
 import net.minecraft.world.item.CreativeModeTab
@@ -35,7 +36,7 @@ class ThatsRad {
 
 		ItemInit.classload()
 		BlockInit.classload()
-//        ModEntityTypes.register(modEventBus)
+    ModEntityTypes.register()
 		GeckoLib.initialize()
 
 	}

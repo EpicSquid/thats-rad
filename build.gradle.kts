@@ -6,9 +6,10 @@ plugins {
 	id("net.minecraftforge.gradle") version "5.1.+"
 	id("maven-publish")
 	id("org.parchmentmc.librarian.forgegradle") version "1.+"
+	id("org.spongepowered.mixin")
 }
 
-version = "0.1.0"
+version = "1.19.2-0.0.4"
 group = "dev.epicsquid"
 
 val modid: String = "thatsrad"
@@ -29,6 +30,10 @@ minecraft {
 			property("forge.logging.console.level", "debug")
 			property("forge.enabledGameTestNamespaces", modid)
 
+			// Disable mixins for botania support in dev environment
+			property("mixin.env.remapRefMap", "true")
+			property("mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg")
+
 			mods {
 				create(modid) {
 					source(sourceSets.main.get())
@@ -43,6 +48,10 @@ minecraft {
 			property("forge.logging.console.level", "debug")
 			property("forge.enabledGameTestNamespaces", modid)
 
+			// Disable mixins for botania support in dev environment
+			property("mixin.env.remapRefMap", "true")
+			property("mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg")
+
 			mods {
 				create(modid) {
 					source(sourceSets.main.get())
@@ -55,6 +64,10 @@ minecraft {
 
 			property("forge.logging.markers", "REGISTRIES")
 			property("forge.logging.console.level", "debug")
+
+			// Disable mixins for botania support in dev environment
+			property("mixin.env.remapRefMap", "true")
+			property("mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg")
 
 			args(
 				"--mod", modid,
@@ -87,25 +100,22 @@ repositories {
 	maven("https://thedarkcolour.github.io/KotlinForForge/")
 	// JEI
 	maven("https://dvs1.progwml6.com/files/maven/")
-	//Geckolib
+	// Botania
+	maven("https://maven.blamejared.com")
+	// Thermal
+	maven("https://maven.covers1624.net/")
+	//GeckoLib
 	maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+	mavenCentral()
 }
 
 dependencies {
 	val minecraftVersion = "1.19.2"
 	minecraft("net.minecraftforge:forge:$minecraftVersion-43.2.8")
-	//Kotlin
-	implementation("thedarkcolour:kotlinforforge:3.12.0")
+	implementation("thedarkcolour:kotlinforforge:3.11.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
-	// Curios
-	val curiosVersion = "5.1.1.0"
-	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion"))
-	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion:api"))
-//Geckolib
-	implementation (fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:3.1.40"))
-	// Dev Environment Runtimes
-	runtimeOnly(fg.deobf("mezz.jei:jei-$minecraftVersion-forge:11.2.0.246"))
+	implementation("software.bernie.geckolib:geckolib-forge-1.19:3.1.40")
 
 	// Registrate
 	val registrateVersion = "MC1.19-1.1.5"
@@ -113,6 +123,21 @@ dependencies {
 		jarJar.pin(this, registrateVersion)
 	}
 	implementation(fg.deobf("com.tterrag.registrate:Registrate:$registrateVersion"))
+
+	// Curios
+	val curiosVersion = "5.1.1.0"
+	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion"))
+	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:$minecraftVersion-$curiosVersion:api"))
+
+	// Jei
+	runtimeOnly(fg.deobf("mezz.jei:jei-$minecraftVersion-forge:11.2.0.246"))
+
+	// Thermal
+	implementation(fg.deobf("com.teamcofh:cofh_core:$minecraftVersion-10.0.0.29"))
+	implementation(fg.deobf("com.teamcofh:thermal_core:$minecraftVersion-10.0.0.1"))
+	implementation(fg.deobf("com.teamcofh:thermal_foundation:$minecraftVersion-10.0.0.38"))
+	runtimeOnly(fg.deobf("com.teamcofh:thermal_innovation:$minecraftVersion-10.0.0.16"))
+	runtimeOnly(fg.deobf("com.teamcofh:thermal_expansion:$minecraftVersion-10.0.0.19"))
 }
 
 tasks.withType(GenerateModuleMetadata::class.java) {

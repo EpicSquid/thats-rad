@@ -11,8 +11,8 @@ import net.minecraft.world.item.Items
 import net.minecraftforge.common.data.ForgeBlockTagsProvider
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import software.bernie.geckolib3.GeckoLib
 import javax.annotation.Nonnull
 
 @Mod(ThatsRad.ID)
@@ -30,6 +30,11 @@ class ThatsRad {
 		}
 	}
 
+
+	private fun commonSetup(event: FMLCommonSetupEvent) {
+		ModEntityTypes.register()
+	}
+
 	init {
 
 		FMLJavaModLoadingContext.get().modEventBus.addListener { event: GatherDataEvent -> gatherData(event) }
@@ -37,7 +42,7 @@ class ThatsRad {
 		ItemInit.classload()
 		BlockInit.classload()
     ModEntityTypes.register()
-		GeckoLib.initialize()
+//		GeckoLib3.initialize()
 
 	}
 
